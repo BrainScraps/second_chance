@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SecondChance</title>
+  <link data-turbolinks-track="true" href="http://www.2ndimpression.co/assets/application-4ef864790222ffadb943d00924a42183.css" media="all" rel="stylesheet" />
+  <script data-turbolinks-track="true" src="http://www.2ndimpression.co/assets/application-a81c6f3a6a5cf0b0c6b44d69d18bdcf4.js"></script>
+  <link href="http://www.2ndimpression.co/assets/application-4ef864790222ffadb943d00924a42183.css" media="screen" rel="stylesheet" />
+<link href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" media="screen" rel="stylesheet" />
+
+  <meta content="authenticity_token" name="csrf-param" />
+<meta content="helgL8lO64YXybrn55CPDGCy28TT5XUp4b4hUW9QFTM=" name="csrf-token" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+
+<div id="map-canvas">
+
+<header id="navbar" role="banner" class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+	  <div class="container">
+	<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+	    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	    </a>
+
+	    <a class="logo" href="/" title="Home"><img alt="Logo" src="http://www.2ndimpression.co/assets/logo-96e4f87076cdd2b44a60980b51e70a0a.png" /></a>
+
+	    <div class="nav-collapse collapse">
+	      <nav role="navigation"> 
+	        <div class="region region-navigation">
+	          <section id="block-system-main-menu" class="block block-system block-menu">
+	            <ul class="menu nav">
+	              <li class="first leaf"><a href="/" title="" class="active">Job Locator</a></li>
+	              <li class="leaf"><a href="#" title="">Our Programs</a></li>
+	              <li class="leaf"><a href="#" title="">Our Mission</a></li>
+	              <li class="leaf"><a href="#" title="">Who we Are</a></li>
+	              <li class="last leaf"><a href="#" title="">contact Us</a></li>
+	            </ul>  
+	          </section> <!-- /.block -->
+	        </div>
+	      </nav>
+	  </div>
+	</div>
+  </div>
+</header>
+
+</div>
+
+
+<script type=text/javascript> 
+// var onError = function () {
+
+
+// }​
+var onError = function() {
+	centerHere = [37.812581 , -122.266041];
+    getFoursquare();
+}
+var foursquareData = [];
+var centerHere = null; 
+if (navigator.geolocation) {
+     navigator.geolocation.getCurrentPosition(function (position) {
+         centerHere = [position.coords.latitude, position.coords.longitude];
+         getFoursquare();
+     }, onError);
+ } else {
+ 	onError()
+ }
+
+var map = L.map('map-canvas', {zoomControl: false}).setView(centerHere ? centerHere : [37.812581 , -122.266041], 16);
+
+L.tileLayer('http://{s}.tile.cloudmade.com/78bc66dbe07f4b8593aece9e8864efff/998/256/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+    maxZoom: 18
+}).addTo(map);
+
+
+var getFoursquare = function() {
+	$.ajax({ 
+	  url: 'https://api.foursquare.com/v2/venues/explore?client_id=5KLM3FG3UEPBHTLD3P3MLTMBBKAJ3F0ZHXH1TZ3INHRUSAWI&client_secret=JOWG1PKYVBGAERZDJ1A11IFKJRNMB2SKYYAGFACJ1BNH4LOF&v=20131016&ll=' + centerHere[0] + ',' + centerHere[1] + '&limit=35', 
+	  dataType: "json",
+	  success: function(data){
+	  	var iterator = function(el, i, li){
+	  	  stuffThis = {
+	  	  	"name":  el.venue.name,
+	  	  	"address1": el.venue.location.address,
+	  	  	"address2": el.venue.location.city + ", " + el.venue.location.state + ' ' + el.venue.location.postalCode,
+	  	  	"ll": [el.venue.location.lat, el.venue.location.lng]
+	  	  };
+	  	  foursquareData.push(stuffThis);
+	  	  var icon = L.icon({iconUrl: "/assets/marker-icon-b325b793a6f482b522fc520c0ba2ad1d.png"});
+	  	  var mark = L.marker(stuffThis.ll, {clickable: true, icon: icon}).addTo(map);
+	  	  mark.bindPopup("<p> "+ stuffThis.name +"<br /> " + stuffThis.address1 + "<br />"+ stuffThis.address2 + "</p>").openPopup();
+	  	};
+	  	unfiltered = data.response.groups[0].items;
+	  	_.each(unfiltered, iterator);
+	  }
+	});
+};
+
+</script> 
+
+
+<script src="assets/bootstrap.min.js?mzkp2h"></script>
+<link type="text/css" rel="stylesheet" href="assets/bootstrap.css" media="all" />
+<link type="text/css" rel="stylesheet" href="assets/style.css" media="all" />
+<link type="text/css" rel="stylesheet" href="assets/bootstrap-responsive.css" media="all" />
+<link type="text/css" rel="stylesheet" href="assets/layout_979.css" media="only screen and (min-width: 979px)" />
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+
+
+/* line 88, ../sass/layout_979.scss */
+.navbar-fixed-top .navbar-inner,
+.navbar-static-top .navbar-inner {
+  height: 40px;
+}
+
+/* line 92, ../sass/layout_979.scss */
+.logo {
+  float: left;
+  margin-top: -5px;
+  position: relative;
+  left: 0%;
+  margin-left: 0;
+}
+
