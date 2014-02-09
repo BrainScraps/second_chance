@@ -53,9 +53,38 @@
 
 <script type=text/javascript> 
 // var onError = function () {
+var businesses = [{"id":171,"name":"Ace Hardware","address1":"4001 Grand Ave","address2":"Oakland, CA","address_combined":null,"link":"Background check to 7 years","score":2,"latitude":37.8156,"longitude":-122.283905},{"id":172,"name":"America Works of California, Inc","address1":"1212 Broadway","address2":"Oakland, CA","address_combined":null,"link":null,"score":2,"latitude":37.803006,"longitude":-122.271499},{"id":173,"name":"AT\u0026T","address1":"3333 Lakeshore Ave","address2":"Oakland, CA","address_combined":null,"link":"Depends on job; theft and fraud generally disqualify applicant","score":2,"latitude":37.81116,"longitude":-122.24375},{"id":174,"name":"Babies \"R\" Us","address1":"3938 Horton St","address2":"Emeryville, CA","address_combined":null,"link":null,"score":2,"latitude":37.828718,"longitude":-122.286573},{"id":175,"name":"Bed Bath and Beyond","address1":"590 2nd St","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.805073,"longitude":-122.273062},{"id":176,"name":"Carl's Junior ","address1":"3770 Telegraph Ave","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.826616,"longitude":-122.264699},{"id":177,"name":"Chipotle","address1":"3271 Lakeshore Ave","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.810825,"longitude":-122.244702},{"id":178,"name":"Goodwill","address1":"1220 Broadway","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.803006,"longitude":-122.271499},{"id":179,"name":"Greyhound","address1":"2103 San Pablo Ave","address2":"Oakland, CA","address_combined":null,"link":"No drug convictions","score":2,"latitude":37.810768,"longitude":-122.273888},{"id":180,"name":"Hilton Garden Inn San Francisco/Oakland Bay Bridge","address1":"1800 Powell St","address2":"Emeryville, CA","address_combined":null,"link":"Depends on job; drug convictions generally disqualify applicant","score":2,"latitude":37.838329,"longitude":-122.298386},{"id":181,"name":"Home Depot","address1":"3838 Hollis Ave","address2":"Emeryville, CA","address_combined":null,"link":"Theft and fraud sometimes disqualify applicant; background check to 5 years","score":3,"latitude":37.837168,"longitude":-122.301745},{"id":182,"name":"Homewood Suites by Hilton Oakland-Waterfront","address1":"1103 Embarcadero","address2":"Oakland, CA","address_combined":null,"link":"Depends on job; drug convictions generally disqualify applicant","score":2,"latitude":37.805073,"longitude":-122.273062},{"id":183,"name":"IHOP","address1":"4101 San Pablo Ave","address2":"Emeryville, CA","address_combined":null,"link":null,"score":3,"latitude":37.832737,"longitude":-122.280805},{"id":184,"name":"Jack in the Box","address1":"4425 Telegraph Ave","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.832787,"longitude":-122.263917},{"id":185,"name":"Kelly Moore Paint","address1":"4156 Telegraph Ave","address2":"Oakland, CA","address_combined":null,"link":null,"score":2,"latitude":37.830649,"longitude":-122.263639},{"id":186,"name":"KFC","address1":"4501 San Pablo Avenue","address2":"Emeryville, CA","address_combined":null,"link":null,"score":3,"latitude":37.834539,"longitude":-122.281344},{"id":187,"name":"KFC","address1":"2800 Telegraph Avenue","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.859314,"longitude":-122.259506},{"id":188,"name":"KFC","address1":"470 Lake Park Avenue","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.81121,"longitude":-122.247146},{"id":189,"name":"KFC","address1":"950 Market St","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.804838,"longitude":-122.282485},{"id":190,"name":"McDonald's","address1":"4514 Telegraph Ave","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.833506,"longitude":-122.262875},{"id":191,"name":"Men's Wearhouse","address1":"300 Frank H Ogawa Plaza ","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.804859,"longitude":-122.272424},{"id":192,"name":"Men's Wearhouse","address1":"5727 Christie Ave","address2":"Emeryville, CA","address_combined":null,"link":null,"score":3,"latitude":37.840816,"longitude":-122.294846},{"id":193,"name":"Safeway","address1":"5130 Broadway","address2":"Oakland, CA","address_combined":null,"link":"Theft and fraud sometimes disqualify applicant;","score":2,"latitude":37.829894,"longitude":-122.255195},{"id":194,"name":"Safeway","address1":"145 Jackson St","address2":"Oakland, CA","address_combined":null,"link":null,"score":2,"latitude":37.799549,"longitude":-122.266729},{"id":195,"name":"Subway","address1":"29 Grand Ave","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.8156,"longitude":-122.283905},{"id":196,"name":"Walgreens","address1":"1333 Broadway","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.804147,"longitude":-122.271894},{"id":197,"name":"Walgreens","address1":"301 E 18th St","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":null,"longitude":null},{"id":198,"name":"Walgreens","address1":"3250 Lakeshore Ave","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.809898,"longitude":-122.244478},{"id":199,"name":"Walgreens","address1":"3400 Telegraph Ave","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.822918,"longitude":-122.266738},{"id":200,"name":"Walgreens","address1":"3434 High St","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.785955,"longitude":-122.196202},{"id":201,"name":"Walgreens","address1":"5055 Telegraph Ave","address2":"Oakland, CA","address_combined":null,"link":null,"score":3,"latitude":37.83662,"longitude":-122.262453}] ; 
 
 
-// }​
+var populate = function() {
+	var popIterate = function(el, i, li){
+		if (el.latitude && el.longitude){
+		var icon = function(int) {
+	  	  	switch(int){
+	  	  		case 3: 
+	  	  			return L.icon({iconUrl: "<%= asset_path 'green.png' %>"});
+	  	  			break;
+	  	  		case 2:
+	  	  			return L.icon({iconUrl: "<%= asset_path 'yellow.png' %>"});
+	  	  			break;
+	  	  		case 1:
+	  	  			return L.icon({iconUrl: "<%= asset_path 'red.png' %>"});
+	  	  			break;
+	  	  		default:
+	  	  			return L.icon({iconUrl: "<%= asset_path 'marker-icon.png' %>"});
+	  	  	}
+	  	  }
+	  	  var restriction = function(link){ return !link ? '' : link;}
+		  var ll = [el.latitude, el.longitude];
+	  	  var mark = L.marker(ll, {clickable: true, icon: icon(parseInt(el.score))}).addTo(map);
+	  	  mark.bindPopup("<p> "+ el.name +"<br /> " + el.address1 + "<br />"+ el.address2 + " <br />" + restriction(el.link) + "</p>" );
+	  	}
+	}
+
+	_.each(businesses, popIterate);
+	
+};
+
 var onError = function() {
 	centerHere = [37.812581 , -122.266041];
     getFoursquare();
@@ -92,7 +121,7 @@ var getFoursquare = function() {
 	  	  	"ll": [el.venue.location.lat, el.venue.location.lng]
 	  	  };
 	  	  foursquareData.push(stuffThis);
-	  	  var icon = L.icon({iconUrl: "/assets/marker-icon-b325b793a6f482b522fc520c0ba2ad1d.png"});
+	  	  var icon = L.icon({iconUrl: "/img/marker-icon.png"});
 	  	  var mark = L.marker(stuffThis.ll, {clickable: true, icon: icon}).addTo(map);
 	  	  mark.bindPopup("<p> "+ stuffThis.name +"<br /> " + stuffThis.address1 + "<br />"+ stuffThis.address2 + "</p>").openPopup();
 	  	};

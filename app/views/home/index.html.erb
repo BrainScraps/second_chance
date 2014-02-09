@@ -36,6 +36,34 @@
 
 <script type=text/javascript> 
 // var onError = function () {
+var populate = function() {
+	var popIterate = function(el, i, li){
+		if (el.latitude && el.longitude){
+		var icon = function(int) {
+	  	  	switch(int){
+	  	  		case 3: 
+	  	  			return L.icon({iconUrl: "<%= asset_path 'green.png' %>"});
+	  	  			break;
+	  	  		case 2:
+	  	  			return L.icon({iconUrl: "<%= asset_path 'yellow.png' %>"});
+	  	  			break;
+	  	  		case 1:
+	  	  			return L.icon({iconUrl: "<%= asset_path 'red.png' %>"});
+	  	  			break;
+	  	  		default:
+	  	  			return L.icon({iconUrl: "<%= asset_path 'marker-icon.png' %>"});
+	  	  	}
+	  	  }
+	  	  var restriction = function(link){ return !link ? '' : link;}
+		  var ll = [el.latitude, el.longitude];
+	  	  var mark = L.marker(ll, {clickable: true, icon: icon(parseInt(el.score))}).addTo(map);
+	  	  mark.bindPopup("<p> "+ el.name +"<br /> " + el.address1 + "<br />"+ el.address2 + " <br />" + restriction(el.link) + "</p>" );
+	  	}
+	}
+
+	_.each(businesses, popIterate);
+	
+};
 
 
 // }​
@@ -43,6 +71,8 @@ var onError = function() {
 	centerHere = [37.812581 , -122.266041];
     getFoursquare();
 }
+
+var businesses = <%= raw(@businesses.to_json) %> ; 
 var foursquareData = [];
 var centerHere = null; 
 if (navigator.geolocation) {
@@ -68,6 +98,7 @@ var getFoursquare = function() {
 	  dataType: "json",
 	  success: function(data){
 	  	var iterator = function(el, i, li){
+	  	  
 	  	  stuffThis = {
 	  	  	"name":  el.venue.name,
 	  	  	"address1": el.venue.location.address,
@@ -81,6 +112,7 @@ var getFoursquare = function() {
 	  	};
 	  	unfiltered = data.response.groups[0].items;
 	  	_.each(unfiltered, iterator);
+	  	populate();
 	  }
 	});
 };

@@ -15,7 +15,7 @@ i = 0
 array_from_csv.each do |row| 
   if i > 0
     score  = row[4] ? row[4] : 2
-    Business.create(name: row[0], address1: row[1], address2: row[2] + ', ' +  row[3], score: score)
+    Business.create(name: row[0], address1: row[1], address2: row[2] + ', ' +  row[3], score: score, link: row[5])
   end
   i+= 1
 end
