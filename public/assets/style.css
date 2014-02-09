@@ -34,6 +34,21 @@
   height: auto !important;
 }
 
+.logo {
+  float: left;
+  margin-top: -5px;
+  position: relative;
+  left: 0%;
+  margin-left: 0;
+  width:195px;
+  height:50px;
+  background:transparent url('logo-hz.png') no-repeat 0 0;
+}
+
+.logo img{
+  display:none;
+}
+
 
 @media (max-width: 767px) {
   body {
@@ -41,3 +56,18 @@
     padding-left: 0 !important;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
