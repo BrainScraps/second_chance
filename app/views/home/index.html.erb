@@ -35,10 +35,12 @@
 
 
 <script type=text/javascript> 
+var foursquareData;
 var centerHere = null; 
 if (navigator.geolocation) {
      navigator.geolocation.getCurrentPosition(function (position) {
          centerHere = [position.coords.latitude, position.coords.longitude];
+         getFoursquare();
      });
  }
 
@@ -49,13 +51,14 @@ L.tileLayer('http://{s}.tile.cloudmade.com/78bc66dbe07f4b8593aece9e8864efff/998/
     maxZoom: 18
 }).addTo(map);
 
-var foursquareData;
 
-$.ajax({ 
-  url: 'https://api.foursquare.com/v2/venues/explore?ll=' + centerHere[0] + ',' + centerHere[1] + '&limit=25', 
-  dataType: json
-  
-});
+var getFoursquare = function() {
+	$.ajax({ 
+	  url: 'https://api.foursquare.com/v2/venues/explore?client_id=5KLM3FG3UEPBHTLD3P3MLTMBBKAJ3F0ZHXH1TZ3INHRUSAWI&client_secret=JOWG1PKYVBGAERZDJ1A11IFKJRNMB2SKYYAGFACJ1BNH4LOF&v=20131016&ll=' + centerHere[0] + ',' + centerHere[1] + '&limit=25', 
+	  dataType: "json"
+	  
+	});
+};
 
 </script> 
 
