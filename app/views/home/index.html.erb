@@ -35,7 +35,7 @@
 
 
 <script type=text/javascript> 
-var foursquareData;
+var foursquareData = [];
 var centerHere = null; 
 if (navigator.geolocation) {
      navigator.geolocation.getCurrentPosition(function (position) {
@@ -54,9 +54,24 @@ L.tileLayer('http://{s}.tile.cloudmade.com/78bc66dbe07f4b8593aece9e8864efff/998/
 
 var getFoursquare = function() {
 	$.ajax({ 
-	  url: 'https://api.foursquare.com/v2/venues/explore?client_id=5KLM3FG3UEPBHTLD3P3MLTMBBKAJ3F0ZHXH1TZ3INHRUSAWI&client_secret=JOWG1PKYVBGAERZDJ1A11IFKJRNMB2SKYYAGFACJ1BNH4LOF&v=20131016&ll=' + centerHere[0] + ',' + centerHere[1] + '&limit=25', 
-	  dataType: "json"
-	  
+	  url: 'https://api.foursquare.com/v2/venues/explore?client_id=5KLM3FG3UEPBHTLD3P3MLTMBBKAJ3F0ZHXH1TZ3INHRUSAWI&client_secret=JOWG1PKYVBGAERZDJ1A11IFKJRNMB2SKYYAGFACJ1BNH4LOF&v=20131016&ll=' + centerHere[0] + ',' + centerHere[1] + '&limit=35', 
+	  dataType: "json",
+	  success: function(data){
+	  	var iterator = function(el, i, li){
+	  	  stuffThis = {
+	  	  	"name":  el.venue.name,
+	  	  	"address1": el.venue.location.address,
+	  	  	"address2": el.venue.location.city + ", " + el.venue.location.state + ' ' + el.venue.location.postalCode,
+	  	  	"ll": [el.venue.location.lat, el.venue.location.lng]
+	  	  };
+	  	  foursquareData.push(stuffThis);
+	  	  var icon = L.icon({iconUrl: "<%= asset_path  'marker-icon.png' %>"});
+	  	  var mark = L.marker(stuffThis.ll, {clickable: true, icon: icon}).addTo(map);
+	  	  mark.bindPopup("<p> "+ stuffThis.name +"<br /> " + stuffThis.address1 + "<br />"+ stuffThis.address2 + "</p>").openPopup();
+	  	};
+	  	unfiltered = data.response.groups[0].items;
+	  	_.each(unfiltered, iterator);
+	  }
 	});
 };
 
