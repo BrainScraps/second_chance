@@ -1,3 +1,13 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>SecondChance</title> 
+<meta content="authenticity_token" name="csrf-param" />
+<meta content="FamiZmsbmdHG+X++L6aFnV6VZkNjqkFPPrvZ6Lt4SF0=" name="csrf-token" />
+</head>
+<body>
+
 <div id="map-canvas">
 
 <header id="navbar" role="banner" class="navbar navbar-fixed-top">
@@ -10,14 +20,14 @@
 	      <span class="icon-bar"></span>
 	    </a>
 
-	    <a class="logo" href="/" title="Home"><%= image_tag "logo.png" %></a>
+	    <a class="logo" href="/" title="Home"><img src="/app/assets/images/logo.png"></a>
 
 	    <div class="nav-collapse collapse">
 	      <nav role="navigation"> 
 	        <div class="region region-navigation">
 	          <section id="block-system-main-menu" class="block block-system block-menu">
 	            <ul class="menu nav">
-	              <li class="first leaf"><a href="/" title="" class="active">whaaaaaaaaa Locator</a></li>
+	              <li class="first leaf"><a href="/" title="" class="active">Job Locator</a></li>
 	              <li class="leaf"><a href="#" title="">Our Programs</a></li>
 	              <li class="leaf"><a href="#" title="">Our Mission</a></li>
 	              <li class="leaf"><a href="#" title="">Who we Are</a></li>
@@ -35,61 +45,36 @@
 
 
 <script type=text/javascript> 
-// var onError = function () {
-
-
-// }​
-var onError = function() {
-	centerHere = [37.812581 , -122.266041];
-    getFoursquare();
-}
-var foursquareData = [];
 var centerHere = null; 
 if (navigator.geolocation) {
      navigator.geolocation.getCurrentPosition(function (position) {
          centerHere = [position.coords.latitude, position.coords.longitude];
-         getFoursquare();
-     }, onError);
- } else {
- 	onError()
+     });
  }
 
-var map = L.map('map-canvas', {zoomControl: false}).setView(centerHere ? centerHere : [37.812581 , -122.266041], 16);
+var map = L.map('map-canvas').setView(centerHere ? centerHere : [37.812581 , -122.266041], 16);
 
 L.tileLayer('http://{s}.tile.cloudmade.com/78bc66dbe07f4b8593aece9e8864efff/998/256/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
     maxZoom: 18
 }).addTo(map);
 
+var foursquareData;
 
-var getFoursquare = function() {
-	$.ajax({ 
-	  url: 'https://api.foursquare.com/v2/venues/explore?client_id=5KLM3FG3UEPBHTLD3P3MLTMBBKAJ3F0ZHXH1TZ3INHRUSAWI&client_secret=JOWG1PKYVBGAERZDJ1A11IFKJRNMB2SKYYAGFACJ1BNH4LOF&v=20131016&ll=' + centerHere[0] + ',' + centerHere[1] + '&limit=35', 
-	  dataType: "json",
-	  success: function(data){
-	  	var iterator = function(el, i, li){
-	  	  stuffThis = {
-	  	  	"name":  el.venue.name,
-	  	  	"address1": el.venue.location.address,
-	  	  	"address2": el.venue.location.city + ", " + el.venue.location.state + ' ' + el.venue.location.postalCode,
-	  	  	"ll": [el.venue.location.lat, el.venue.location.lng]
-	  	  };
-	  	  foursquareData.push(stuffThis);
-	  	  var icon = L.icon({iconUrl: "<%= asset_path  'marker-icon.png' %>"});
-	  	  var mark = L.marker(stuffThis.ll, {clickable: true, icon: icon}).addTo(map);
-	  	  mark.bindPopup("<p> "+ stuffThis.name +"<br /> " + stuffThis.address1 + "<br />"+ stuffThis.address2 + "</p>").openPopup();
-	  	};
-	  	unfiltered = data.response.groups[0].items;
-	  	_.each(unfiltered, iterator);
-	  }
-	});
-};
+$.ajax({ 
+  url: 'https://api.foursquare.com/v2/venues/explore?ll=' + centerHere[0] + ',' + centerHere[1] + '&limit=25', 
+  dataType: json
+  
+});
 
 </script> 
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="/app/assets/javascripts/bootstrap.min.js?mzkp2h"></script>
 <link type="text/css" rel="stylesheet" href="/assets/bootstrap.css" media="all" />
-<link type="text/css" rel="stylesheet" href="/assets/style.css" media="all" />
-<link type="text/css" rel="stylesheet" href="/assets/bootstrap-responsive.css" media="all" />
+<link type="text/css" rel="stylesheet" href="/assets/style.css?mzkp2h" media="all" />
+<link type="text/css" rel="stylesheet" href="/assets/bootstrap-responsive.css?mzkp2h" media="all" />
+<link type="text/css" rel="stylesheet" href="/assets/layout_979.css?mzkp2h" media="only screen and (min-width: 979px)" />
 
-
-  
+</body>
+</html>
