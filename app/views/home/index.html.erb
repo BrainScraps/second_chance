@@ -108,7 +108,7 @@ var getFoursquare = function() {
 	  	  foursquareData.push(stuffThis);
 	  	  var icon = L.icon({iconUrl: "<%= asset_path  'marker-icon.png' %>"});
 	  	  var mark = L.marker(stuffThis.ll, {clickable: true, icon: icon}).addTo(map);
-	  	  mark.bindPopup("<p> "+ stuffThis.name +"<br /> " + stuffThis.address1 + "<br />"+ stuffThis.address2 + "</p>").openPopup();
+	  	  mark.bindPopup("<p> "+ stuffThis.name +"<br /> " + stuffThis.address1 + "<br />"+ stuffThis.address2 + "</p>");
 	  	};
 	  	unfiltered = data.response.groups[0].items;
 	  	_.each(unfiltered, iterator);

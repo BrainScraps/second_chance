@@ -62,16 +62,16 @@ var populate = function() {
 		var icon = function(int) {
 	  	  	switch(int){
 	  	  		case 3: 
-	  	  			return L.icon({iconUrl: "<%= asset_path 'green.png' %>"});
+	  	  			return L.icon({iconUrl: "img/green.png"});
 	  	  			break;
 	  	  		case 2:
-	  	  			return L.icon({iconUrl: "<%= asset_path 'yellow.png' %>"});
+	  	  			return L.icon({iconUrl: "img/yellow.png"});
 	  	  			break;
 	  	  		case 1:
-	  	  			return L.icon({iconUrl: "<%= asset_path 'red.png' %>"});
+	  	  			return L.icon({iconUrl: "img/red.png"});
 	  	  			break;
 	  	  		default:
-	  	  			return L.icon({iconUrl: "<%= asset_path 'marker-icon.png' %>"});
+	  	  			return L.icon({iconUrl: "img/marker-icon.png"});
 	  	  	}
 	  	  }
 	  	  var restriction = function(link){ return !link ? '' : link;}
