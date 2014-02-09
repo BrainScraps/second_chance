@@ -28,3 +28,10 @@
 #navbar .navbar-inner {
   padding: 0 35px 0 40px;
 }
+
+@media (max-width: 767px) {
+  body {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+}
