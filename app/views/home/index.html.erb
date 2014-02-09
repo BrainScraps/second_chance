@@ -35,13 +35,23 @@
 
 
 <script type=text/javascript> 
+// var onError = function () {
+
+
+// }​
+var onError = function() {
+	centerHere = [37.812581 , -122.266041];
+    getFoursquare();
+}
 var foursquareData = [];
 var centerHere = null; 
 if (navigator.geolocation) {
      navigator.geolocation.getCurrentPosition(function (position) {
          centerHere = [position.coords.latitude, position.coords.longitude];
          getFoursquare();
-     });
+     }, onError);
+ } else {
+ 	onError()
  }
 
 var map = L.map('map-canvas', {zoomControl: false}).setView(centerHere ? centerHere : [37.812581 , -122.266041], 16);
