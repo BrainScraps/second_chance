@@ -49,7 +49,7 @@ if (navigator.geolocation) {
      navigator.geolocation.getCurrentPosition(function (position) {
          centerHere = [position.coords.latitude, position.coords.longitude];
          getFoursquare();
-     }, onError);
+     }, onError());
  } else {
  	onError()
  }
